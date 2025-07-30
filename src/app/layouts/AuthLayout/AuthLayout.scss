@@ -1,0 +1,27 @@
+.auth-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.auth-sidebar {
+  width: 46vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #23272f;
+}
+
+.auth-content {
+  width: 54vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-sidebar-heading {
+  color: #58c4dc;
+}

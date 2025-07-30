@@ -1,0 +1,14 @@
+.registration-lower-text {
+  display: flex;
+  position: absolute;
+  bottom: 30px;
+
+  &__inner-text {
+    margin-left: 5px;
+    color: #1677ff;
+  }
+
+  & a {
+    text-decoration: none;
+  }
+}

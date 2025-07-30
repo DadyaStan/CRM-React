@@ -1,0 +1,39 @@
+.todo-card {
+  width: 370px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 8px 8px 8px 12px;
+  word-wrap: break-word;
+
+  &__content {
+    max-width: 200px;
+    text-align: left;
+    white-space: normal;
+    margin: 0;
+  }
+
+  &__input {
+    width: 70%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #555;
+  }
+
+  &__inner-box {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.completed-task {
+  & .todo-card {
+    &__content {
+      color: grey;
+      text-decoration: line-through;
+    }
+  }
+}
