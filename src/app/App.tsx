@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import AuthLayout from "@/app/layouts/AuthLayout";
 import MainLayout from "@/app/layouts/MainLayout";
@@ -20,6 +20,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Navigate to="/auth/login" replace />} />
         <Route element={<AuthLayout />}>
           <Route
             path="/auth/register"
