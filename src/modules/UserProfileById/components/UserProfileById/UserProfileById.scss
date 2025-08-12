@@ -1,0 +1,7 @@
+.user-profile {
+    width: 600px;
+    &__btn-box {
+        display: flex;
+        flex-direction: column;
+    }
+}

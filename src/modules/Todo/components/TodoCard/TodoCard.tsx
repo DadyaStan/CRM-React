@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import type { TodoItem } from "../../types/Todo";
 import "./TodoCard.scss";
-import { Checkbox, Button } from "antd";
+import { Checkbox, Button, message } from "antd";
 import { changeTodo, deleteTask } from "../../api/TodoApi";
 import { TodoContext } from "../../context";
 
@@ -9,6 +9,7 @@ import IconAccept from "@assets/IconAccept.svg";
 import IconBack from "@assets/IconBack.svg";
 import IconRewrite from "@assets/IconRewrite.svg";
 import IconDelete from "@assets/IconDelete.svg";
+import isTaskCorrected from "../../helpers/isTaskCorrected";
 
 export const TodoCard = (props: TodoItem) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -30,18 +31,23 @@ export const TodoCard = (props: TodoItem) => {
       await changeTodo(props.id, { isDone: newStatus });
       await fetchData();
     } catch {
-      alert("hueta");
+      message.error('Ошибка при изменении статуса задачи')
     }
   };
 
   const handleChangeTaskTitle = async () => {
-    if (changedTodo.current?.value !== props.title) {
-      try {
-        await changeTodo(props.id, { title: changedTodo.current?.value });
-        await fetchData();
-      } catch {
-        alert("hueta");
+    try {
+      if (changedTodo.current?.value) {
+        if (!isTaskCorrected(changedTodo.current?.value)) {
+          message.warning('Задача может содержать от 2 до 64 символов');
+          await fetchData();
+        } else if (changedTodo.current?.value !== props.title) {
+          await changeTodo(props.id, { title: changedTodo.current?.value });
+          await fetchData();
+        }
       }
+    } catch {
+      message.error('Ошибка при изменении задачи')
     }
     setIsEdit(false);
   };
@@ -51,7 +57,7 @@ export const TodoCard = (props: TodoItem) => {
       await deleteTask(props.id);
       await fetchData();
     } catch {
-      alert("hueta");
+      message.error('Ошибка при удалении задачи')
     }
   };
 
