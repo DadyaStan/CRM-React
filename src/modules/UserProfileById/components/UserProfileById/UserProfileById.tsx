@@ -4,6 +4,8 @@ import { updateUserData } from "../../api/updateUserData";
 import { prepareDataForRequest } from "../../helpers/prepareDataForRequest";
 import { Button, Descriptions, message, type DescriptionsProps } from "antd";
 import type { User } from "../../types";
+import { NavLink } from "react-router";
+import "./UserProfileById.scss";
 
 const UserProfileById = ({ userId }: { userId: number }) => {
   const [userData, setUserData] = useState<User>();
@@ -17,6 +19,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "1",
       label: "Имя пользователя",
+      span: 'filled',
       children: (
         <>
           {!isEdit ? (
@@ -30,6 +33,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "2",
       label: "Эл. Почта",
+      span: 'filled',
       children: (
         <>
           {!isEdit ? (
@@ -43,6 +47,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "3",
       label: "Номер телефона",
+      span: 'filled',
       children: (
         <>
           {!isEdit ? (
@@ -58,7 +63,8 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "4",
       label: "Роль",
-      children: <>{userData?.roles.slice(-1)}</>,
+      span: 'filled',
+      children: <>{userData?.roles.join(", ")}</>,
     },
   ];
 
@@ -124,9 +130,14 @@ const UserProfileById = ({ userId }: { userId: number }) => {
                 </Button>
               </>
             ) : (
-              <Button color="primary" variant="solid" onClick={changeIsEdit}>
-                Изменить
-              </Button>
+              <>
+                <NavLink to="/users-list">
+                  Вернуться к списку
+                </NavLink>
+                <Button color="primary" variant="solid" onClick={changeIsEdit}>
+                  Изменить
+                </Button>
+              </>
             )}
           </div>
         }

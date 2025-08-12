@@ -3,22 +3,25 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, message } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { signin } from "../../api";
-import tokenService from "@/shared/api/token.service";
+import { fetchAndSetRole, signin } from "../../api";
+import type { AuthData } from "../../types/login";
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: AuthData) => {
     try {
-      console.log("Received values of form: ", values);
       await signin(values);
-
-      console.log(tokenService.getTokenExpiration());
-      navigate("/profile");
+      await fetchAndSetRole();
+      navigate("/todo");
     } catch (error: any) {
-      message.error(error.message);
-      console.log(error);
+      if (error.status === 400) {
+        message.error("400 Bad Request: Ошибка десериализации запроса или неверный ввод.");
+      } else if (error.status === 401) {
+        message.error("401 Unauthorized: Неверные учетные данные.");
+      } else if (error.status === 500) {
+        message.error("500 Internal Server Error: Внутренняя ошибка сервера.");
+      }
     }
   };
 

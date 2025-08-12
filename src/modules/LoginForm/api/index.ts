@@ -1,6 +1,6 @@
 import { $api } from "@api/axiosClient";
 import tokenService from "@/shared/api/token.service";
-import type { Token, AuthData } from "../types/login";
+import type { Token, AuthData, Profile } from "../types/login";
 
 export const signin = async (loginData: AuthData): Promise<Token | void> => {
   try {
@@ -14,15 +14,21 @@ export const signin = async (loginData: AuthData): Promise<Token | void> => {
       return response.data;
     }
   } catch (error: any) {
-    if (error.status === 400) {
-      alert("Bad Request: Ошибка десериализации запроса или неверный ввод.");
-    } else if (error.status === 401) {
-      alert("401 Unauthorized: Неверные учетные данные.");
-    } else if (error.status === 500) {
-      alert("500 Internal Server Error: Внутренняя ошибка сервера.");
-    }
-
     console.error(`Ошибка при логине: ${error}`);
+    throw error;
+  }
+};
+
+export const fetchAndSetRole = async (): Promise<void> => {
+  try {
+    const response = await $api.get<Profile>("/user/profile");
+
+    const userRole = response.data.roles.includes("ADMIN") ? "ADMIN" : "USER";
+    if (userRole) {
+      localStorage.setItem('userRole', userRole)
+    }
+  } catch (error) {
+    console.error(`Ошибка при загрузке профиля: ${error}`);
     throw error;
   }
 };

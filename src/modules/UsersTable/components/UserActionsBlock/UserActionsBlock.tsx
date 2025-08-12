@@ -21,9 +21,12 @@ const UserActionsBlock = ({ props }: { props: User }) => {
 
   const handleRemoveAdmin = async (userId: number) => {
     try {
-      await changeUserRights(userId, ["USER"]);
+      const updatedRoles = props.roles.filter(item => {
+        return item !== "ADMIN";
+      });
+      await changeUserRights(userId, updatedRoles);
       await fetchAndSetUsers();
-      message.success(`Пользователь ${props.username} понижен в правах`);
+      message.success(`Пользователь ${props.username} больше не администратор`);
     } catch {
       message.error(`Ошибка при изменении прав пользователя`);
     }
@@ -31,9 +34,34 @@ const UserActionsBlock = ({ props }: { props: User }) => {
 
   const handleMakeAdmin = async (userId: number) => {
     try {
-      await changeUserRights(userId, ["USER", "ADMIN"]);
+      props.roles.push("ADMIN")
+      await changeUserRights(userId, props.roles);
       await fetchAndSetUsers();
-      message.success(`Пользователь ${props.username} повышен в правах`);
+      message.success(`Пользователь ${props.username} начначен администратором`);
+    } catch {
+      message.error(`Ошибка при изменении прав пользователя`);
+    }
+  };
+
+  const handleRemoveModerator = async (userId: number) => {
+    try {
+      const updatedRoles = props.roles.filter(item => {
+        return item !== "MODERATOR";
+      });
+      await changeUserRights(userId, updatedRoles);
+      await fetchAndSetUsers();
+      message.success(`Пользователь ${props.username} больше не модератор`);
+    } catch {
+      message.error(`Ошибка при изменении прав пользователя`);
+    }
+  };
+
+  const handleMakeModerator = async (userId: number) => {
+    try {
+      props.roles.push("MODERATOR")
+      await changeUserRights(userId, props.roles);
+      await fetchAndSetUsers();
+      message.success(`Пользователь ${props.username} назначен модератором`);
     } catch {
       message.error(`Ошибка при изменении прав пользователя`);
     }
@@ -75,7 +103,7 @@ const UserActionsBlock = ({ props }: { props: User }) => {
               handleAction={handleRemoveAdmin}
             >
               <Button color="primary" variant="solid">
-                Сделать пользователем
+                Снять администратора
               </Button>
             </AsyncModal>
           </>
@@ -88,7 +116,35 @@ const UserActionsBlock = ({ props }: { props: User }) => {
               handleAction={handleMakeAdmin}
             >
               <Button color="primary" variant="solid">
-                Сделать администратором
+                Назначить администратором
+              </Button>
+            </AsyncModal>
+          </>
+        )}
+
+        {props.roles.includes("MODERATOR") ? (
+          <>
+            <AsyncModal
+              username={props.username}
+              userId={props.id}
+              actionText={`Вы действительно хотите отменить права модератора пользователя ${props.username}?`}
+              handleAction={handleRemoveModerator}
+            >
+              <Button color="cyan" variant="solid">
+                Снять модератора
+              </Button>
+            </AsyncModal>
+          </>
+        ) : (
+          <>
+            <AsyncModal
+              username={props.username}
+              userId={props.id}
+              actionText={`Вы действительно хотите сделать пользователя ${props.username} модератором?`}
+              handleAction={handleMakeModerator}
+            >
+              <Button color="cyan" variant="solid">
+                Назначить модератором
               </Button>
             </AsyncModal>
           </>

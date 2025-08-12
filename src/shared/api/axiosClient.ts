@@ -62,7 +62,8 @@ $api.interceptors.response.use(
 export const logout = async (): Promise<void> => {
   try {
     localStorage.removeItem("refreshToken");
-
+    localStorage.removeItem("userRole");
+    
     if (tokenService.getToken()) {
       await $api.post<void>(`${BASE_API}/user/logout`);
     }

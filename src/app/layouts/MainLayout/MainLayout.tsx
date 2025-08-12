@@ -1,36 +1,16 @@
 import "./MainLayout.scss";
 import { NavLink } from "react-router";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-
+import { useLocation, Outlet } from "react-router";
 const { Header, Content, Footer } = Layout;
 
-import { useLocation, Outlet } from "react-router";
-import { useEffect, useState } from "react";
-import { $api } from "@/shared/api/axiosClient";
-
 const MainLayout = () => {
-  const [isAdmin, seIsAdmin] = useState(false);
+  const userRole = localStorage.getItem('userRole');
+
   const location = useLocation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  useEffect(() => {
-    setTimeout(() => {
-      const fetchProfile = async () => {
-        try {
-          const response = await $api.get("/user/profile");
-
-          seIsAdmin(response.data.roles.includes("ADMIN"));
-        } catch (error) {
-          console.error(`Ошибка при загрузке профиля: ${error}`);
-          throw error;
-        }
-      };
-
-      fetchProfile();
-    }, 200);
-  }, []);
 
   return (
     <div className="app-wrapper">
@@ -59,7 +39,7 @@ const MainLayout = () => {
             <Menu.Item key="/profile">
               <NavLink to="/profile">Профиль</NavLink>
             </Menu.Item>
-            {isAdmin ? (
+            {userRole === 'ADMIN' ? (
               <Menu.Item key="/users-list">
                 <NavLink to="/users-list">Пользователи</NavLink>
               </Menu.Item>
