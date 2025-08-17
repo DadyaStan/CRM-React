@@ -4,11 +4,10 @@ import { updateUserData } from "../../api/updateUserData";
 import { prepareDataForRequest } from "../../helpers/prepareDataForRequest";
 import { Button, Descriptions, message, type DescriptionsProps } from "antd";
 import type { User } from "../../types";
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import "./UserProfileById.scss";
 
 const UserProfileById = ({ userId }: { userId: number }) => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [userData, setUserData] = useState<User>();
