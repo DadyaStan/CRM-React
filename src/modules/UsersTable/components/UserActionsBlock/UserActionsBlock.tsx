@@ -17,11 +17,11 @@ import AsyncModal from "@/components/AsyncModal";
 import type { User } from "../../types";
 
 const UserActionsBlock = ({ props }: { props: User }) => {
-  const { fetchAndSetUsers } = useUsersTable();
+  const { querySearch, fetchAndSetUsers } = useUsersTable();
 
   const handleRemoveAdmin = async (userId: number) => {
     try {
-      const updatedRoles = props.roles.filter(item => {
+      const updatedRoles = props.roles.filter((item) => {
         return item !== "ADMIN";
       });
       await changeUserRights(userId, updatedRoles);
@@ -34,10 +34,12 @@ const UserActionsBlock = ({ props }: { props: User }) => {
 
   const handleMakeAdmin = async (userId: number) => {
     try {
-      props.roles.push("ADMIN")
+      props.roles.push("ADMIN");
       await changeUserRights(userId, props.roles);
       await fetchAndSetUsers();
-      message.success(`Пользователь ${props.username} начначен администратором`);
+      message.success(
+        `Пользователь ${props.username} начначен администратором`,
+      );
     } catch {
       message.error(`Ошибка при изменении прав пользователя`);
     }
@@ -45,7 +47,7 @@ const UserActionsBlock = ({ props }: { props: User }) => {
 
   const handleRemoveModerator = async (userId: number) => {
     try {
-      const updatedRoles = props.roles.filter(item => {
+      const updatedRoles = props.roles.filter((item) => {
         return item !== "MODERATOR";
       });
       await changeUserRights(userId, updatedRoles);
@@ -58,7 +60,7 @@ const UserActionsBlock = ({ props }: { props: User }) => {
 
   const handleMakeModerator = async (userId: number) => {
     try {
-      props.roles.push("MODERATOR")
+      props.roles.push("MODERATOR");
       await changeUserRights(userId, props.roles);
       await fetchAndSetUsers();
       message.success(`Пользователь ${props.username} назначен модератором`);
@@ -176,7 +178,12 @@ const UserActionsBlock = ({ props }: { props: User }) => {
           {props.isBlocked ? "Разблок" : "Блок"}
         </Button>
       </AsyncModal>
-      <NavLink to={`/user/${props.id}`}>
+      <NavLink
+        to={`/user/${props.id}`}
+        state={{
+          searchParams: Object.fromEntries(querySearch),
+        }}
+      >
         <Button color="default" variant="outlined">
           <ArrowRightOutlined />
         </Button>

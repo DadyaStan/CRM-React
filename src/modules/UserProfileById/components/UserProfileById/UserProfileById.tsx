@@ -4,10 +4,13 @@ import { updateUserData } from "../../api/updateUserData";
 import { prepareDataForRequest } from "../../helpers/prepareDataForRequest";
 import { Button, Descriptions, message, type DescriptionsProps } from "antd";
 import type { User } from "../../types";
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import "./UserProfileById.scss";
 
 const UserProfileById = ({ userId }: { userId: number }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [userData, setUserData] = useState<User>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
@@ -19,7 +22,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "1",
       label: "Имя пользователя",
-      span: 'filled',
+      span: "filled",
       children: (
         <>
           {!isEdit ? (
@@ -33,7 +36,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "2",
       label: "Эл. Почта",
-      span: 'filled',
+      span: "filled",
       children: (
         <>
           {!isEdit ? (
@@ -47,7 +50,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "3",
       label: "Номер телефона",
-      span: 'filled',
+      span: "filled",
       children: (
         <>
           {!isEdit ? (
@@ -63,7 +66,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
     {
       key: "4",
       label: "Роль",
-      span: 'filled',
+      span: "filled",
       children: <>{userData?.roles.join(", ")}</>,
     },
   ];
@@ -107,7 +110,9 @@ const UserProfileById = ({ userId }: { userId: number }) => {
       setIsEdit(false);
     }
   };
-
+  const savedParams = location.state?.searchParams || {};
+  const paramsString = new URLSearchParams(savedParams).toString();
+  console.log(paramsString);
   return (
     <div className="user-profile">
       <Descriptions
@@ -131,7 +136,7 @@ const UserProfileById = ({ userId }: { userId: number }) => {
               </>
             ) : (
               <>
-                <NavLink to="/users-list">
+                <NavLink to={`/users-list?${paramsString}`}>
                   Вернуться к списку
                 </NavLink>
                 <Button color="primary" variant="solid" onClick={changeIsEdit}>

@@ -5,7 +5,7 @@ import { useLocation, Outlet } from "react-router";
 const { Header, Content, Footer } = Layout;
 
 const MainLayout = () => {
-  const userRole = localStorage.getItem('userRole');
+  const userRole = localStorage.getItem("userRole");
 
   const location = useLocation();
   const {
@@ -39,7 +39,7 @@ const MainLayout = () => {
             <Menu.Item key="/profile">
               <NavLink to="/profile">Профиль</NavLink>
             </Menu.Item>
-            {userRole === 'ADMIN' ? (
+            {userRole === "ADMIN" ? (
               <Menu.Item key="/users-list">
                 <NavLink to="/users-list">Пользователи</NavLink>
               </Menu.Item>

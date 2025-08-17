@@ -14,8 +14,6 @@ import UserProfileByIdPage from "@pages/UserProfileByIdPage";
 import AuthRoute from "./routes/AuthRoute";
 import AppRoute from "./routes/AppRoute";
 
-//const basename = process.env.PUBLIC_URL || '/';
-
 function App() {
   return (
     <>

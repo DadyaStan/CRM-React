@@ -16,7 +16,9 @@ const LoginForm: React.FC = () => {
       navigate("/todo");
     } catch (error: any) {
       if (error.status === 400) {
-        message.error("400 Bad Request: Ошибка десериализации запроса или неверный ввод.");
+        message.error(
+          "400 Bad Request: Ошибка десериализации запроса или неверный ввод.",
+        );
       } else if (error.status === 401) {
         message.error("401 Unauthorized: Неверные учетные данные.");
       } else if (error.status === 500) {

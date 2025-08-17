@@ -17,19 +17,19 @@ const UserProfile: React.FC = () => {
     {
       key: "1",
       label: "Имя пользователя",
-      span: 'filled',
+      span: "filled",
       children: <span>{userData?.username}</span>,
     },
     {
       key: "2",
       label: "Эл. Почта",
-      span: 'filled',
+      span: "filled",
       children: <span>{userData?.email}</span>,
     },
     {
       key: "3",
       label: "Номер телефона",
-      span: 'filled',
+      span: "filled",
       children: (
         <span>
           {userData?.phoneNumber ? userData?.phoneNumber : "Не привязан"}
@@ -39,7 +39,7 @@ const UserProfile: React.FC = () => {
     {
       key: "4",
       label: "Роль",
-      span: 'filled',
+      span: "filled",
       children: <span>{userData?.roles.join(", ")}</span>,
     },
   ];

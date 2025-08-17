@@ -20,8 +20,6 @@ export const fetchUsers = async (
       };
     }
     const response = await $api.get<MetaResponse<User>>("/admin/users", args);
-    console.log("INPUT: ", filterData);
-    console.log("OUTPUT: ", response);
 
     return response.data;
   } catch (error) {

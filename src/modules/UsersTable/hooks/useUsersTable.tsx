@@ -9,6 +9,7 @@ import {
 } from "react";
 import { fetchUsers } from "../api";
 import type { User, UserFilters } from "../types";
+import { useSearchParams } from "react-router";
 
 interface UsersTableContextType {
   tableData: User[];
@@ -17,20 +18,28 @@ interface UsersTableContextType {
   setFilterSettings: (filters: UserFilters) => void;
   totalUsers: number;
   fetchAndSetUsers: () => Promise<void>;
+  querySearch: any;
+  setQuerySearch: (querySearch: any) => void;
 }
 
 export const UsersTableProvider = ({ children }: { children: ReactNode }) => {
   const [tableData, setTableData] = useState<User[]>([]);
-  const [filterSettings, setFilterSettings] = useState<UserFilters>({
-    search: "",
-    sortBy: undefined,
-    sortOrder: undefined,
-    isBlocked: undefined,
-    limit: undefined,
-    offset: undefined,
-  });
-
   const [totalUsers, setTotalUsers] = useState<number>(0);
+
+  const [querySearch, setQuerySearch] = useSearchParams();
+
+  const [filterSettings, setFilterSettings] = useState<UserFilters | any>({
+    search: querySearch.get("search") ? querySearch.get("search") : "",
+    sortBy: querySearch.get("sortBy") ? querySearch.get("sortBy") : undefined,
+    sortOrder: querySearch.get("sortOrder")
+      ? querySearch.get("sortOrder")
+      : undefined,
+    isBlocked: querySearch.get("isBlocked")
+      ? querySearch.get("isBlocked")
+      : undefined,
+    limit: querySearch.get("limit") ? querySearch.get("limit") : undefined,
+    offset: querySearch.get("offset") ? querySearch.get("offset") : undefined,
+  });
 
   const fetchAndSetUsers = useCallback(async (): Promise<void> => {
     try {
@@ -54,6 +63,8 @@ export const UsersTableProvider = ({ children }: { children: ReactNode }) => {
       setFilterSettings,
       totalUsers,
       fetchAndSetUsers,
+      querySearch,
+      setQuerySearch,
     }),
     [tableData, filterSettings, totalUsers, fetchAndSetUsers],
   );

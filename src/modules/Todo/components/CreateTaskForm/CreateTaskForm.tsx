@@ -17,12 +17,12 @@ export const CreateTaskForm = () => {
           await createNewTodo(newTask.current?.value);
           await fetchData();
         } catch {
-          message.error('Ошибка при создании задачи');
+          message.error("Ошибка при создании задачи");
         } finally {
           newTask.current.value = "";
         }
       } else {
-        message.warning('Задача может содержать от 2 до 64 символов')
+        message.warning("Задача может содержать от 2 до 64 символов");
       }
     }
   };

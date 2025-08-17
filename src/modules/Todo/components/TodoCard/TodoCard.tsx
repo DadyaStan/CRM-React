@@ -31,7 +31,7 @@ export const TodoCard = (props: TodoItem) => {
       await changeTodo(props.id, { isDone: newStatus });
       await fetchData();
     } catch {
-      message.error('Ошибка при изменении статуса задачи')
+      message.error("Ошибка при изменении статуса задачи");
     }
   };
 
@@ -39,7 +39,7 @@ export const TodoCard = (props: TodoItem) => {
     try {
       if (changedTodo.current?.value) {
         if (!isTaskCorrected(changedTodo.current?.value)) {
-          message.warning('Задача может содержать от 2 до 64 символов');
+          message.warning("Задача может содержать от 2 до 64 символов");
           await fetchData();
         } else if (changedTodo.current?.value !== props.title) {
           await changeTodo(props.id, { title: changedTodo.current?.value });
@@ -47,7 +47,7 @@ export const TodoCard = (props: TodoItem) => {
         }
       }
     } catch {
-      message.error('Ошибка при изменении задачи')
+      message.error("Ошибка при изменении задачи");
     }
     setIsEdit(false);
   };
@@ -57,7 +57,7 @@ export const TodoCard = (props: TodoItem) => {
       await deleteTask(props.id);
       await fetchData();
     } catch {
-      message.error('Ошибка при удалении задачи')
+      message.error("Ошибка при удалении задачи");
     }
   };
 

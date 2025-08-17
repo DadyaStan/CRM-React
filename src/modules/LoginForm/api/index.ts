@@ -25,7 +25,7 @@ export const fetchAndSetRole = async (): Promise<void> => {
 
     const userRole = response.data.roles.includes("ADMIN") ? "ADMIN" : "USER";
     if (userRole) {
-      localStorage.setItem('userRole', userRole)
+      localStorage.setItem("userRole", userRole);
     }
   } catch (error) {
     console.error(`Ошибка при загрузке профиля: ${error}`);
